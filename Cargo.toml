@@ -1,0 +1,16 @@
+[package]
+name = "you-dump"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+log = ">=0.4"
+env_logger = ">=0.9"
+toml = ">=0.5"
+warp = ">=0.3"
+tokio = { version = ">=1", features = ["rt-multi-thread"] }
+serde = { version = ">=1", features = ["derive"] }
+serde_json = ">=1"
+chrono = ">=0.4"
