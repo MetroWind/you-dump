@@ -19,7 +19,7 @@ pkgver() {
 }
 
 prepare() {
-    rustup install --profile minimal
+    rustup install --profile minimal stable
 }
 
 build() {
