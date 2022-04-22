@@ -1,0 +1,38 @@
+pkgname=you-dump
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='A naively simple web UI for youtube-dl/yt-dlp'
+arch=(x86_64 i686 armv6h armv7h)
+url='https://github.com/MetroWind/you-dump'
+license=(WTFPL)
+makedepends=(rustup git)
+depends=(yt-dlp)
+source=("git+${url}.git" "sysusers-you-dump.conf" "you-dump.service" "you-dump.toml")
+sha256sums=('SKIP'
+            '89c67c85f183b4ed79489a2689a2de77380ee1c4b33c1d73d37e9ad06e94fdf7'
+            'ea8f023de2ea4eb59abedd6a5d28e5a37c98c410c09bb60a9cc2e18dba92958b'
+            'f0acad8bdb5a4f8629c983066617a25da09e07ad89bb0e4e3e0e4a8ac9039367')
+
+pkgver() {
+  cd "$pkgname"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    rustup install --profile minimal
+}
+
+build() {
+    cd "${srcdir}/${pkgname}"
+    export CARGO_TARGET_DIR=target
+    cargo build --release
+}
+
+package() {
+    install -Dm0755 -t "$pkgdir/usr/bin/" "${srcdir}/${pkgname}/target/release/${pkgname}"
+    mkdir -pv "$pkgdir/var/lib/${pkgname}"
+    cp -r "${srcdir}/${pkgname}/static" "$pkgdir/var/lib/${pkgname}/"
+    install -Dm644 "${srcdir}/${pkgname}/you-dump-example.toml" "${pkgdir}/etc/you-dump.toml"
+    install -Dm644 "sysusers-you-dump.conf" "${pkgdir}/usr/lib/sysusers.d/you-dump.conf"
+    install -Dm644 "you-dump.service" "${pkgdir}/usr/lib/systemd/system/you-dump.service"
+}

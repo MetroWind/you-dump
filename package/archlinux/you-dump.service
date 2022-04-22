@@ -1,0 +1,12 @@
+[Unit]
+Description=You-dump service
+After=network.target
+
+[Service]
+User=you_dump
+Group=you_dump
+ExecStart=/usr/bin/you-dump
+Environment="RUST_LOG=info"
+
+[Install]
+WantedBy=multi-user.target
