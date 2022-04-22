@@ -6,6 +6,8 @@ use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use serde::Serialize;
 use serde::ser::Serializer;
 use chrono::prelude::*;
+use log::info;
+use log::error as log_error;
 
 use crate::error::Error;
 use crate::config::Configuration;
@@ -141,6 +143,15 @@ fn download(job: NewJob, config: Configuration, finished: Arc<AtomicBool>) ->
         Err(e) => StoppedJob::fromNewJob(job, StopReason::Error(e)),
     };
     finished.store(true, Ordering::Relaxed);
+    match &result.stop_reason
+    {
+        StopReason::Done => {
+            info!("Finished downloading {}.", result.uri);
+        },
+        StopReason::Error(e) => {
+            log_error!("Stopped downloading {}: {}", result.uri, e);
+        },
+    }
     result
 }
 
@@ -154,5 +165,6 @@ pub fn createDownload(uri: String, config: Configuration) ->
     let proc = std::thread::spawn(move || {
         download(job2, config, finished2)
     });
+    info!("Downloading {}...", job.uri);
     OngoingJob::fromNewJob(job, proc, finished)
 }

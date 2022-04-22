@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use log::info;
 
 use crate::error;
 use crate::error::Error;
@@ -33,6 +34,7 @@ impl Configuration
 {
     pub fn readFromFile(f: &std::path::Path) -> Result<Self, Error>
     {
+        info!("Reading configuration from {:?}...", f);
         let contents = std::fs::read_to_string(f).map_err(
             |_| rterr!("Failed to read configuration file"))?;
         let result: Configuration = toml::from_str(&contents).map_err(

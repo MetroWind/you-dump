@@ -1,0 +1,6 @@
+download_dir = "/tmp"
+ydl_exec = "yt-dlp"
+static_dir = "static"
+listen_address = "127.0.0.1"
+listen_port = 8000
+log_timestamp = false

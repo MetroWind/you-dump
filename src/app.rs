@@ -1,7 +1,8 @@
 use std::sync::{Arc, Mutex};
+use std::path::Path;
 
 use log::error as log_error;
-use log::{info, debug};
+use log::info;
 
 use warp::{Filter, Reply};
 use warp::http::status::StatusCode;
@@ -119,7 +120,7 @@ fn listJobs(ongoing: &OngoingJobs, stopped: &StoppedJobs) ->
         }
         if jobs_ongoing[i].finished()
         {
-            let result: StoppedJob = jobs_ongoing.remove(i).result();
+            let result: StoppedJob = jobs_ongoing.swap_remove(i).result();
             jobs_stopped.push(result);
         }
         else
@@ -188,6 +189,9 @@ impl App
               self.config.listen_port);
         if let Some(d) = self.config.static_dir
         {
+            let d = Path::new(&d).canonicalize().map_err(
+                |e| rterr!("Failed to load statics: {}", e))?;
+            info!("Serving statics from {:?}...", d);
             let statics = warp::path("static").and(warp::fs::dir(d));
             warp::serve(statics.or(index).or(list_jobs).or(create_job))
                 .run(addr).await;
