@@ -32,7 +32,7 @@ package() {
     install -Dm0755 -t "$pkgdir/usr/bin/" "${srcdir}/${pkgname}/target/release/${pkgname}"
     mkdir -pv "$pkgdir/var/lib/${pkgname}"
     cp -r "${srcdir}/${pkgname}/static" "$pkgdir/var/lib/${pkgname}/"
-    install -Dm644 "${srcdir}/${pkgname}/you-dump-example.toml" "${pkgdir}/etc/you-dump.toml"
+    install -Dm644 "you-dump.toml" "${pkgdir}/etc/you-dump.toml"
     install -Dm644 "sysusers-you-dump.conf" "${pkgdir}/usr/lib/sysusers.d/you-dump.conf"
     install -Dm644 "you-dump.service" "${pkgdir}/usr/lib/systemd/system/you-dump.service"
 }
