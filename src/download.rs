@@ -111,9 +111,13 @@ fn tryDownload(job: &NewJob, config: Configuration) -> Result<(), Error>
     }
     let dir_str = dir.to_str().ok_or_else(
         || rterr!("Download dir is too weired"))?;
+
+    let mut args: Vec<&str> = vec!["-P", dir_str];
+    args.append(&mut config.extra_args.iter().map(|s| s.as_str()).collect());
+    args.push(&job.uri);
+
     let mut proc = Command::new(&config.ydl_exec)
-        .args(["-P", dir_str, &job.uri])
-        .stdout(Stdio::null())
+        .args(args).stdout(Stdio::null())
         .spawn().map_err(
             |e| rterr!("Failed to spawn {}: {}", config.ydl_exec, e))?;
 

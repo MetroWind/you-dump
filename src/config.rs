@@ -13,6 +13,8 @@ pub struct Configuration
     pub listen_address: String,
     pub listen_port: u16,
     pub log_timestamp: bool,
+    #[serde(default)]
+    pub extra_args: Vec<String>,
 }
 
 impl Default for Configuration
@@ -26,6 +28,7 @@ impl Default for Configuration
             listen_address: String::from("127.0.0.1"),
             listen_port: 8000,
             log_timestamp: false,
+            extra_args: Vec::new(),
         }
     }
 }
