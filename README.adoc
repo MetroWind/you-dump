@@ -29,7 +29,7 @@ The program itself does not write anything to disk at all.
 The configuration file contains the following lines:
 
 ----
-# Video will be downloaded into this directory
+# Video will be downloaded into this directory. This should exist.
 download_dir = "/tmp"
 # The executable of youtube-dl/yt-dlp
 ydl_exec = "yt-dlp"
