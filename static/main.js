@@ -73,7 +73,18 @@ class StoppedJobView extends React.Component
 
     render()
     {
-        return e("li", null, this.props["data"]["uri"]);
+        let status_text = "✅";
+        let status_tooltip = "Finished";
+        if(this.props["data"]["stop_reason"] != "Done")
+        {
+            status_text = "❌";
+            status_tooltip = JSON.stringify(this.props["data"]["stop_reason"]["Error"]);
+        }
+
+        return e("li", null,
+                 e("span", {"className": "JobURI"}, this.props["data"]["uri"]),
+                 e("span", {"className": "JobStatus", "title": status_tooltip},
+                   status_text));
     }
 }
 

@@ -163,3 +163,14 @@ h2.SectionTitle
 {
     display: block;
 }
+
+#StoppedJobList > li
+{
+    display: flex;
+    gap: 1em;
+}
+
+#StoppedJobList > li > .JobURI
+{
+    flex-grow: 1;
+}
