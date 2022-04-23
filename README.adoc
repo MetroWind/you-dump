@@ -26,6 +26,9 @@ following:
 
 The program itself does not write anything to disk at all.
 
+In the future I may make this simpler by compiling the static files
+into the library. These are just two files anyway.
+
 The configuration file contains the following lines:
 
 ----
@@ -47,7 +50,8 @@ extra_args = ["--windows-filenames"]
 If you are using a reverse proxy, you can choose to host the static
 files in the proxy. Make sure they are served under the `static` path.
 In that case the `static_dir` line can be omitted in the configuration
-file.
+file. But it is also perfectly fine to let you-dump handle the static
+files.
 
 You could choose to let systemd manage the service. In that case here
 is a minimal service file:
