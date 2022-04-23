@@ -11,10 +11,14 @@ queue up URLs to download, and see if a previously queued download is
 finished or not. Nothing more. It does not even persist the queue and
 the finished downloads—these are cleared with a restart.
 
+I say “queue” a lot, but it is not really a queue. All the downloads
+are carried out simultaneously. In the future I may add an option to
+change that.
+
 == Deployment
 
 The simplicity has one major benefit: this program is very easy to
-deploy. In order for it to run, one just needs to installed the
+deploy. In order for it to run, one just needs to install the
 following:
 
 * The compiled binary (`cargo build --release`)
